@@ -309,11 +309,78 @@
     .t-out { color: var(--muted); }
     .t-success { color: #28c840; }
 
+    /* ── WHATSAPP FLOAT ── */
+    .wa-float {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+      width: 58px; height: 58px; border-radius: 50%;
+      background: #25D366;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.45);
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .wa-float:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,0.6); }
+    .wa-float svg { width: 30px; height: 30px; fill: #fff; }
+    .wa-tooltip {
+      position: absolute; right: 68px; top: 50%; transform: translateY(-50%);
+      background: #111722; color: var(--text);
+      font-size: 0.8rem; font-weight: 500;
+      padding: 0.4rem 0.9rem; border-radius: 8px;
+      white-space: nowrap; pointer-events: none;
+      border: 1px solid var(--border);
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .wa-float:hover .wa-tooltip { opacity: 1; }
+
+    /* ── PAYMENT ── */
+    .payment-section { background: var(--surface); }
+    .payment-cards {
+      display: flex; flex-wrap: wrap; gap: 1.2rem;
+      align-items: stretch;
+    }
+    .pay-card {
+      flex: 1; min-width: 200px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.8rem;
+      display: flex; flex-direction: column; align-items: flex-start; gap: 1rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .pay-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .pay-logo {
+      height: 44px; display: flex; align-items: center; justify-content: center;
+      border-radius: 10px; padding: 0 1rem;
+      font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em;
+    }
+    .pay-logo.visa {
+      background: #1a1f6e; color: #fff;
+      font-style: italic; font-size: 1.4rem;
+      min-width: 80px;
+    }
+    .pay-logo.mastercard {
+      background: #1a1a1a;
+      position: relative; min-width: 60px;
+    }
+    .mc-circles { display: flex; }
+    .mc-c {
+      width: 34px; height: 34px; border-radius: 50%;
+      display: block;
+    }
+    .mc-c.r { background: #EB001B; }
+    .mc-c.y { background: #F79E1B; margin-left: -14px; opacity: 0.9; }
+    .pay-logo.instapay {
+      background: linear-gradient(135deg, #6C3CE1, #9B4CFF);
+      color: #fff; font-size: 1rem;
+      min-width: 100px;
+    }
+    .pay-name { font-weight: 600; font-size: 1rem; }
+    .pay-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .nav-links { display: none; }
       .course-footer { flex-direction: column; }
+      .payment-cards { flex-direction: column; }
     }
   </style>
 </head>
@@ -325,6 +392,7 @@
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#course">Course</a></li>
+    <li><a href="#payment">Payment</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -460,8 +528,42 @@
         <span class="price-label">Course Price</span>
         <span class="price-val"><span class="price-currency">EGP </span>3,000</span>
       </div>
-      <a href="#contact" class="btn btn-primary" style="font-size:1rem; padding:1rem 2rem;">Enroll Now →</a>
+      <a href="https://wa.me/201019875841?text=Hi%20Mohamed%2C%20I%27m%20interested%20in%20the%20Automation%20Testing%20Bootcamp!" target="_blank" class="btn btn-primary" style="font-size:1rem; padding:1rem 2rem;">Enroll via WhatsApp →</a>
     </div>
+  </div>
+</section>
+
+<!-- PAYMENT -->
+<section id="payment" class="payment-section">
+  <p class="section-label">// payment methods</p>
+  <h2 class="section-title">How to Pay</h2>
+  <p class="section-sub">Choose the method that works best for you. All payments confirmed via WhatsApp.</p>
+  <div class="payment-cards">
+    <div class="pay-card">
+      <div class="pay-logo visa">VISA</div>
+      <div class="pay-name">Visa Card</div>
+      <div class="pay-desc">Pay using your Visa debit or credit card. Send payment details via WhatsApp to confirm your enrollment.</div>
+    </div>
+    <div class="pay-card">
+      <div class="pay-logo mastercard">
+        <div class="mc-circles">
+          <span class="mc-c r"></span>
+          <span class="mc-c y"></span>
+        </div>
+      </div>
+      <div class="pay-name">Mastercard</div>
+      <div class="pay-desc">Pay using your Mastercard debit or credit card. Contact via WhatsApp after payment to confirm your seat.</div>
+    </div>
+    <div class="pay-card">
+      <div class="pay-logo instapay">InstaPay</div>
+      <div class="pay-name">InstaPay</div>
+      <div class="pay-desc">Fast & easy Egyptian instant payment. Transfer directly then send a screenshot on WhatsApp to confirm.</div>
+    </div>
+  </div>
+  <div style="margin-top:2rem; display:flex; justify-content:center;">
+    <a href="https://wa.me/201019875841?text=Hi%20Mohamed%2C%20I%27d%20like%20to%20enroll%20and%20confirm%20my%20payment!" target="_blank" class="btn btn-primary" style="font-size:1rem; padding:1rem 2.5rem;">
+      💬 Confirm Payment on WhatsApp
+    </a>
   </div>
 </section>
 
@@ -469,8 +571,15 @@
 <section id="contact" style="background: var(--bg);">
   <p class="section-label">// contact</p>
   <h2 class="section-title">Let's Connect</h2>
-  <p class="section-sub">Reach out on social media to ask about the course or discuss a project.</p>
+  <p class="section-sub">Reach out on WhatsApp, Instagram, or LinkedIn — happy to answer any questions.</p>
   <div class="social-grid">
+    <a href="https://wa.me/201019875841?text=Hi%20Mohamed%2C%20I%27m%20interested%20in%20your%20Automation%20Testing%20course!" target="_blank" rel="noopener" class="social-card">
+      <div class="social-icon" style="background:#25D366;">💬</div>
+      <div class="social-info">
+        <strong>WhatsApp</strong>
+        <span>+20 101 987 5841</span>
+      </div>
+    </a>
     <a href="https://www.instagram.com/elghrably_automotive/" target="_blank" rel="noopener" class="social-card">
       <div class="social-icon ig">📸</div>
       <div class="social-info">
@@ -488,10 +597,19 @@
   </div>
 </section>
 
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/201019875841?text=Hi%20Mohamed%2C%20I%27m%20interested%20in%20your%20Automation%20Testing%20course!" target="_blank" class="wa-float" aria-label="Chat on WhatsApp">
+  <span class="wa-tooltip">Chat with me!</span>
+  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 2C8.268 2 2 8.268 2 16c0 2.49.65 4.83 1.79 6.87L2 30l7.35-1.77A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 25.5a11.46 11.46 0 01-5.85-1.6l-.42-.25-4.36 1.05 1.08-4.24-.27-.44A11.5 11.5 0 1116 27.5zm6.3-8.6c-.34-.17-2.02-1-2.34-1.11-.31-.11-.54-.17-.77.17-.23.34-.88 1.11-1.08 1.34-.2.23-.4.26-.74.09-.34-.17-1.44-.53-2.74-1.69-1.01-.9-1.7-2.01-1.9-2.35-.2-.34-.02-.52.15-.69.15-.15.34-.4.51-.6.17-.2.23-.34.34-.57.11-.23.06-.43-.03-.6-.09-.17-.77-1.85-1.05-2.54-.28-.67-.56-.58-.77-.59h-.66c-.23 0-.6.09-.91.43-.31.34-1.2 1.17-1.2 2.85s1.23 3.31 1.4 3.54c.17.23 2.42 3.7 5.86 5.19.82.35 1.46.56 1.96.72.82.26 1.57.22 2.16.13.66-.1 2.02-.83 2.31-1.63.28-.8.28-1.49.2-1.63-.09-.14-.31-.23-.65-.4z"/>
+  </svg>
+</a>
+
 <!-- FOOTER -->
 <footer>
   <span>© 2025 Mohamed Elghrably. All rights reserved.</span>
   <div style="display:flex;gap:1.5rem;">
+    <a href="https://wa.me/201019875841" target="_blank">WhatsApp</a>
     <a href="https://www.instagram.com/elghrably_automotive/" target="_blank">Instagram</a>
     <a href="https://www.linkedin.com/in/mohamed-ashraf-elghrably/" target="_blank">LinkedIn</a>
   </div>
