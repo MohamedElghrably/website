@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mohamed Elghrably — Automation Testing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0A0D14;
+      --surface: #111722;
+      --border: #1E2636;
+      --accent: #00D4AA;
+      --accent2: #0091FF;
+      --text: #E8EDF5;
+      --muted: #6B7A99;
+      --card: #13192A;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 5%;
+      background: rgba(10,13,20,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1rem; font-weight: 500; color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 6rem 5% 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -200px; right: -150px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(0,212,170,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; bottom: -100px; left: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(0,145,255,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 900px;
+      position: relative; z-index: 1;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem; color: var(--accent);
+      border: 1px solid rgba(0,212,170,0.3);
+      padding: 0.35rem 0.9rem; border-radius: 100px;
+      margin-bottom: 2rem;
+      letter-spacing: 0.08em;
+    }
+    .hero-tag::before {
+      content: '';
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 .name { color: var(--text); }
+    .hero h1 .role {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-bio {
+      font-size: 1.1rem; color: var(--muted);
+      max-width: 540px; margin-bottom: 2.5rem;
+    }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.85rem 1.8rem;
+      border-radius: 8px;
+      font-size: 0.92rem; font-weight: 600;
+      text-decoration: none; transition: all 0.2s; cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--accent); color: #0A0D14;
+    }
+    .btn-primary:hover { background: #00efc0; transform: translateY(-1px); }
+    .btn-ghost {
+      border: 1px solid var(--border); color: var(--text);
+    }
+    .btn-ghost:hover { border-color: var(--muted); background: var(--surface); }
+
+    /* ── TECH STRIP ── */
+    .tech-strip {
+      padding: 1.5rem 5%;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      display: flex; gap: 2rem; align-items: center;
+      overflow-x: auto;
+    }
+    .tech-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem; color: var(--muted);
+      white-space: nowrap; text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    .tech-tags { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .tech-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      padding: 0.3rem 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      color: var(--text); white-space: nowrap;
+      transition: border-color 0.2s;
+    }
+    .tech-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 6rem 5%; }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700; letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+    .section-sub { color: var(--muted); font-size: 1.05rem; max-width: 500px; margin-bottom: 3rem; }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+      align-items: center;
+    }
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+    .stat {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.5rem;
+    }
+    .stat-num {
+      font-size: 2rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label { font-size: 0.85rem; color: var(--muted); margin-top: 0.25rem; }
+    .about-text { font-size: 1rem; color: var(--muted); line-height: 1.75; }
+    .about-text p + p { margin-top: 1rem; }
+    .about-skills { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+    .skill-row { display: flex; flex-direction: column; gap: 0.4rem; }
+    .skill-name { font-size: 0.85rem; color: var(--text); font-weight: 500; }
+    .skill-bar { height: 4px; background: var(--border); border-radius: 100px; overflow: hidden; }
+    .skill-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 100px;
+      transition: width 1s ease;
+    }
+
+    /* ── COURSE ── */
+    #course { background: var(--surface); }
+    .course-card {
+      max-width: 780px; margin: 0 auto;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; overflow: hidden;
+      position: relative;
+    }
+    .course-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+    .course-header {
+      padding: 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .course-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem; letter-spacing: 0.1em;
+      color: var(--accent); background: rgba(0,212,170,0.1);
+      padding: 0.3rem 0.8rem; border-radius: 5px; margin-bottom: 1rem;
+    }
+    .course-title { font-size: 1.7rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .course-desc { color: var(--muted); font-size: 0.95rem; }
+    .course-body { padding: 2.5rem; }
+    .modules { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2.5rem; }
+    .module {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.2rem;
+      display: flex; flex-direction: column; gap: 0.5rem;
+    }
+    .module-icon { font-size: 1.5rem; }
+    .module-name { font-weight: 600; font-size: 0.95rem; }
+    .module-detail { font-size: 0.82rem; color: var(--muted); }
+    .course-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem;
+      padding: 2rem 2.5rem;
+      border-top: 1px solid var(--border);
+      background: rgba(0,0,0,0.2);
+    }
+    .price-block { display: flex; flex-direction: column; }
+    .price-label { font-size: 0.75rem; color: var(--muted); }
+    .price-val {
+      font-size: 2.2rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .price-currency { font-size: 1rem; font-weight: 500; }
+
+    /* ── CONTACT ── */
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.2rem;
+    }
+    .social-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.8rem;
+      text-decoration: none; color: var(--text);
+      display: flex; align-items: center; gap: 1.2rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .social-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .social-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+    }
+    .social-icon.ig { background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); }
+    .social-icon.li { background: #0077b5; }
+    .social-info strong { display: block; font-weight: 600; }
+    .social-info span { font-size: 0.82rem; color: var(--muted); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 5%;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+      color: var(--muted); font-size: 0.82rem;
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+
+    /* ── TERMINAL BLOCK ── */
+    .terminal {
+      background: #0d1117; border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+    }
+    .terminal-bar {
+      padding: 0.75rem 1rem;
+      background: #1a1f2b; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.r { background: #ff5f57; }
+    .dot.y { background: #febc2e; }
+    .dot.g { background: #28c840; }
+    .terminal-body {
+      padding: 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem; line-height: 1.9;
+    }
+    .t-prompt { color: var(--accent); }
+    .t-cmd { color: var(--text); }
+    .t-out { color: var(--muted); }
+    .t-success { color: #28c840; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .nav-links { display: none; }
+      .course-footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">ME_</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#course">Course</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Available for Training</div>
+    <h1>
+      <span class="name">Mohamed<br>Elghrably</span><br>
+      <span class="role">Automation Testing Engineer</span>
+    </h1>
+    <p class="hero-bio">
+      Building quality-first software through smart automation. Teaching teams and individuals to test smarter — with Python, Robot Framework, and real-world workflows.
+    </p>
+    <div class="hero-ctas">
+      <a href="#course" class="btn btn-primary">View Course</a>
+      <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STRIP -->
+<div class="tech-strip">
+  <span class="tech-label">Tech Stack</span>
+  <div class="tech-tags">
+    <span class="tech-tag">Python</span>
+    <span class="tech-tag">Robot Framework</span>
+    <span class="tech-tag">Selenium</span>
+    <span class="tech-tag">GitHub Actions</span>
+    <span class="tech-tag">CI/CD</span>
+    <span class="tech-tag">API Testing</span>
+    <span class="tech-tag">Test Automation</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div>
+      <p class="section-label">// about me</p>
+      <h2 class="section-title">QA Engineer &<br>Automation Trainer</h2>
+      <div class="about-text">
+        <p>I'm Mohamed Elghrably — an automation testing engineer with hands-on experience building scalable test frameworks for real-world applications.</p>
+        <p>I believe quality isn't just caught at the end — it's built in from the start. My courses bridge the gap between theory and production-grade test automation.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Practical Focus</div></div>
+        <div class="stat"><div class="stat-num">3</div><div class="stat-label">Core Frameworks Taught</div></div>
+        <div class="stat"><div class="stat-num">EGP</div><div class="stat-label">Local Pricing</div></div>
+        <div class="stat"><div class="stat-num">✓</div><div class="stat-label">GitHub Portfolio Included</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+        </div>
+        <div class="terminal-body">
+          <div><span class="t-prompt">$ </span><span class="t-cmd">python -m pytest tests/</span></div>
+          <div class="t-out">collecting ... 24 items</div>
+          <div class="t-out">.</div>
+          <div><span class="t-prompt">$ </span><span class="t-cmd">robot --outputdir results tests/</span></div>
+          <div class="t-out">==================================================</div>
+          <div class="t-out">Test Suite | PASS |</div>
+          <div class="t-success">✓ All 24 tests passed in 3.2s</div>
+          <div>&nbsp;</div>
+          <div><span class="t-prompt">$ </span><span class="t-cmd">git push origin main</span></div>
+          <div class="t-out">Triggering CI pipeline...</div>
+          <div class="t-success">✓ Build passed — Quality assured.</div>
+        </div>
+      </div>
+      <div class="about-skills" style="margin-top:2rem;">
+        <div class="skill-row">
+          <div class="skill-name">Python & pytest</div>
+          <div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-name">Robot Framework</div>
+          <div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-name">GitHub & CI/CD</div>
+          <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-name">API & UI Testing</div>
+          <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COURSE -->
+<section id="course">
+  <p class="section-label">// course</p>
+  <h2 class="section-title" style="margin-bottom:0.5rem;">Learn Automation Testing</h2>
+  <p class="section-sub">From zero to production-ready test engineer — in one structured course.</p>
+
+  <div class="course-card">
+    <div class="course-header">
+      <span class="course-badge">FEATURED COURSE</span>
+      <div class="course-title">Automation Testing Bootcamp</div>
+      <div class="course-desc">Master industry-standard tools used by QA engineers worldwide. Hands-on, project-based, and mentored by a working engineer.</div>
+    </div>
+    <div class="course-body">
+      <div class="modules">
+        <div class="module">
+          <div class="module-icon">🐍</div>
+          <div class="module-name">Python for Testers</div>
+          <div class="module-detail">Variables, loops, functions, OOP — all focused on testing use cases.</div>
+        </div>
+        <div class="module">
+          <div class="module-icon">🤖</div>
+          <div class="module-name">Robot Framework</div>
+          <div class="module-detail">Keyword-driven testing, SeleniumLibrary, and test suites at scale.</div>
+        </div>
+        <div class="module">
+          <div class="module-icon">🐙</div>
+          <div class="module-name">GitHub & Version Control</div>
+          <div class="module-detail">Branching, PRs, GitHub Actions, and automating test runs on push.</div>
+        </div>
+        <div class="module">
+          <div class="module-icon">🔁</div>
+          <div class="module-name">CI/CD Integration</div>
+          <div class="module-detail">Hook your tests into real pipelines. Ship with confidence.</div>
+        </div>
+      </div>
+    </div>
+    <div class="course-footer">
+      <div class="price-block">
+        <span class="price-label">Course Price</span>
+        <span class="price-val"><span class="price-currency">EGP </span>3,000</span>
+      </div>
+      <a href="#contact" class="btn btn-primary" style="font-size:1rem; padding:1rem 2rem;">Enroll Now →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="background: var(--bg);">
+  <p class="section-label">// contact</p>
+  <h2 class="section-title">Let's Connect</h2>
+  <p class="section-sub">Reach out on social media to ask about the course or discuss a project.</p>
+  <div class="social-grid">
+    <a href="https://www.instagram.com/elghrably_automotive/" target="_blank" rel="noopener" class="social-card">
+      <div class="social-icon ig">📸</div>
+      <div class="social-info">
+        <strong>Instagram</strong>
+        <span>@elghrably_automotive</span>
+      </div>
+    </a>
+    <a href="https://www.linkedin.com/in/mohamed-ashraf-elghrably/" target="_blank" rel="noopener" class="social-card">
+      <div class="social-icon li">💼</div>
+      <div class="social-info">
+        <strong>LinkedIn</strong>
+        <span>Mohamed Ashraf Elghrably</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 Mohamed Elghrably. All rights reserved.</span>
+  <div style="display:flex;gap:1.5rem;">
+    <a href="https://www.instagram.com/elghrably_automotive/" target="_blank">Instagram</a>
+    <a href="https://www.linkedin.com/in/mohamed-ashraf-elghrably/" target="_blank">LinkedIn</a>
+  </div>
+</footer>
+
+</body>
+</html>
